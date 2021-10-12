@@ -20,7 +20,7 @@ public class QuestsManager : MonoBehaviour {
     public void EndQuest(){
         activeQuest.End();
         if(activeQuest.NextQuestAfterFinished != null){
-            SetActiveQuest(activeQuest.NextQuestAfterFinished)
+            SetActiveQuest(activeQuest.NextQuestAfterFinished);
         }else{
             activeQuest = null;
         }
