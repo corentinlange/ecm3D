@@ -15,9 +15,16 @@ MonoBehaviour:
   Holder: {fileID: 0}
   Name: Main quest
   Description: Test
-  Presentation:
-  - "Salut aujourd'hui je te pr\xE9sente une qu\xEAte"
-  - "Tu veux commencer la qu\xEAte ?"
+  PresentationTexts:
+  - "Salut voil\xE0 la premi\xE8re qu\xEAte"
+  - Tu veux la commencer ?
+  ProgressTexts:
+  - "Finis ce que t'as commenc\xE9 avant de venir"
+  - ozienoiaznvoaeivbueabveaoiaiupvb
+  FinishedTexts:
+  - "Bien jou\xE9"
+  - Cadeau
+  NeededToUnlock: []
   NextQuestAfterFinished: {fileID: 0}
   Objective: 0
   Target: {fileID: 0}
@@ -25,3 +32,4 @@ MonoBehaviour:
   CheckpointPrefab: {fileID: 6214241549591868910, guid: 86938543de5021c46816ecfee31f6c3f, type: 3}
   CheckpointRadius: 6
   Checkpoint: {fileID: 0}
+  State: 0

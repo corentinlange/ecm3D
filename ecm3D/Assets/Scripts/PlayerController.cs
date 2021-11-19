@@ -5,39 +5,54 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private QuestsManager QuestsManager;
     private Camera mainCamera;
 
     public Vector3 height;
 
+    public CharacterController controller;
+
+    public float gravity = 9.8f;
+    private float vSpeed = 0; // current vertical velocity
+
+    public float jumpHeight;
+
     void Start()
     {
         mainCamera = Camera.main;
-        QuestsManager = GameObject.FindGameObjectsWithTag("QuestsManager")[0].GetComponent<QuestsManager>();
+        controller = GetComponent<CharacterController>();
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        if(QuestsManager.activeQuest){
-            if(QuestsManager.activeQuest.Checkpoint == other.gameObject){
-                QuestsManager.EndQuest();
-            }
+    {   
+        Quest _quest = QuestsManager.singleton.activeQuests.Find(x => x.Name == other.name);
+        if(_quest != null){
+            QuestsManager.singleton.EndQuest(_quest);
         }
     }
 
     void FixedUpdate()
     {
-        // Bit shift the index of the layer (8) to get a bit mask
-        // int layerMask = 1 << 8;
+        if (controller.isGrounded && vSpeed < 0)
+        {
+            vSpeed = 0f;
+        }
 
-        // This would cast rays only against colliders in layer 8.
-        // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
-        // layerMask = ~layerMask;
+        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        {
+            Debug.Log("jump");
+            vSpeed += Mathf.Sqrt(jumpHeight * 3.0f * gravity);
+        }
+
+        if(!controller.isGrounded){
+            vSpeed -= gravity * Time.deltaTime;
+        }
+
+        controller.Move(vSpeed * new Vector3(0,1,0));
 
         RaycastHit hit;
-        // Does the ray intersect any objects excluding the player layer
+
         Vector3 raycastDir = Quaternion.AngleAxis(-20, mainCamera.transform.TransformDirection(Vector3.right)) * mainCamera.transform.TransformDirection(Vector3.forward);
-        if (Physics.Raycast(transform.position + height, raycastDir, out hit, Mathf.Infinity/*, layerMask*/))
+        if (Physics.Raycast(transform.position + height, raycastDir, out hit, Mathf.Infinity))
         {
             Debug.DrawRay(transform.position + height, raycastDir * hit.distance, Color.yellow);
             

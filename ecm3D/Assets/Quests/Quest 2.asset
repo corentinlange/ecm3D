@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11612918efde01d499d2132c925044b3, type: 3}
-  m_Name: Quest 1
+  m_Name: Quest 2
   m_EditorClassIdentifier: 
   Holder: {fileID: 0}
-  Name: Second quest
-  Description: "Seconde qu\xEAte apr\xE8s la premi\xE8re"
+  Name: Test quest
+  Description: Test 2 quetes
   PresentationTexts:
-  - Ok c'est reparti
-  - "Fais moi plaisir va me chercher \xE7a, t'es chaud?"
+  - "Salut voil\xE0 la premi\xE8re qu\xEAte"
+  - Tu veux la commencer ?
   ProgressTexts:
-  - "T'as pas ce que je t'ai demand\xE9"
+  - "Finis ce que t'as commenc\xE9 avant de venir"
+  - ozienoiaznvoaeivbueabveaoiaiupvb
   FinishedTexts:
-  - Merci beaucoup c'est sympa
-  - "Tiens voil\xE0 la r\xE9compense "
-  NeededToUnlock:
-  - {fileID: 11400000, guid: 25c0dad4c7186034e859656ee0411c4c, type: 2}
+  - "Bien jou\xE9"
+  - Cadeau
+  NeededToUnlock: []
   NextQuestAfterFinished: {fileID: 0}
   Objective: 0
   Target: {fileID: 0}
-  positionToReach: {x: 550, y: 0.75, z: 500}
+  positionToReach: {x: 500, y: 0.75, z: 500}
   CheckpointPrefab: {fileID: 6214241549591868910, guid: 86938543de5021c46816ecfee31f6c3f, type: 3}
-  CheckpointRadius: 10
+  CheckpointRadius: 6
   Checkpoint: {fileID: 0}
-  State: 1
+  State: 0

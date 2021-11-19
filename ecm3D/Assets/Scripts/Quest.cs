@@ -5,11 +5,21 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Quest", menuName = "Quests", order = 0)]
 public class Quest : ScriptableObject {
 
-    [HideInInspector] public QuestHolder Holder;
+    // [HideInInspector]
+    public QuestHolder Holder;
 
     public string Name;
     public string Description;
-    public List<string> Presentation;
+
+    [Header("Textes de présentations de quête")]
+    public List<string> PresentationTexts;
+    [Header("Textes dits par le PNJ si le joueur lui reparle sans avoir terminé.")]
+    public List<string> ProgressTexts;
+    [Header("Textes de fin de quête")]
+    public List<string> FinishedTexts;
+
+    [SerializeField]
+    public List<Quest> NeededToUnlock = new List<Quest>();
     public Quest NextQuestAfterFinished;
 
     public enum Objectives
@@ -34,6 +44,17 @@ public class Quest : ScriptableObject {
     
     [HideInInspector] public GameObject Checkpoint;
 
+    public enum States
+    {
+        Available,
+        Unavailable,
+        Started,
+        Finished,
+        FinishedPending,
+        Retry
+    };
+    public States State = States.Available;
+
     public bool StartQuest(){
         if(!CheckParametersAndValidate()){
             return false;
@@ -42,6 +63,7 @@ public class Quest : ScriptableObject {
         if(Objective == Objectives.Checkpoint){
             Checkpoint = Instantiate(CheckpointPrefab, positionToReach, Quaternion.identity);
             Checkpoint.transform.localScale = new Vector3(CheckpointRadius, Checkpoint.transform.localScale.y, CheckpointRadius);
+            Checkpoint.name = Name;
         }
         return true;
     }
@@ -64,9 +86,22 @@ public class Quest : ScriptableObject {
         return true;
     }
 
+    public void CheckNeededQuests(){
+        foreach(Quest _quest in NeededToUnlock){
+            if(_quest.State != States.Finished){
+                return;
+            }
+        }
+        State = States.Available;
+    }
+    public void GiveRecompense(){
+        State = States.Finished;
+        Debug.Log("Recompense given");
+    }
+
     public void End(){
         Destroy(Checkpoint);
-        Holder.SetFinished();
-        Debug.Log("Quest ended");
+        State = States.FinishedPending;
+        // Holder.SetFinished();
     }
 }
