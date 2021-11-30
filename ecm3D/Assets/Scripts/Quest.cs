@@ -5,28 +5,29 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Quest", menuName = "Quests", order = 0)]
 public class Quest : ScriptableObject {
 
-    [HideInInspector] public QuestHolder Holder;
+    // [HideInInspector]
+    public QuestHolder Holder;
 
     public string Name;
     public string Description;
-    public List<string> Presentation;
+
+    [Header("Textes de présentations de quête")]
+    public List<string> PresentationTexts;
+    [Header("Textes dits par le PNJ si le joueur lui reparle sans avoir terminé.")]
+    public List<string> ProgressTexts;
+    [Header("Textes de fin de quête")]
+    public List<string> FinishedTexts;
+
+    [SerializeField]
+    public List<Quest> NeededToUnlock = new List<Quest>();
     public Quest NextQuestAfterFinished;
 
-    public enum Objectives
-    {
-        Checkpoint,
-        Collect,
-        Bring
-    };
-    public Objectives Objective;
-
-    [Header("Target selection (null if Checkpoint selected)")]
-    [Tooltip("Select objects to collect/bring")]
-    public GameObject Target;
-
+    public Action m_Action;
     
-    [Header("Position to reach (only if Checkpoint selected)")]
-    [Tooltip("Select objects to collect/bring")]
+    public int m_RequieredAmount;
+    public int m_Amount = 0;
+    
+    [Header("Position to reach (only if Action.Type == Reach)")]
     public Vector3 positionToReach;
 
     public GameObject CheckpointPrefab;
@@ -34,39 +35,56 @@ public class Quest : ScriptableObject {
     
     [HideInInspector] public GameObject Checkpoint;
 
-    public bool StartQuest(){
-        if(!CheckParametersAndValidate()){
-            return false;
-        }
+    public enum States
+    {
+        Available,
+        Unavailable,
+        Started,
+        Finished,
+        FinishedPending,
+        Retry
+    };
+    public States State = States.Available;
 
-        if(Objective == Objectives.Checkpoint){
+    public bool StartQuest(){
+        m_Amount = 0;
+        if(m_Action.m_Type == Action.Actions.Reach){
             Checkpoint = Instantiate(CheckpointPrefab, positionToReach, Quaternion.identity);
             Checkpoint.transform.localScale = new Vector3(CheckpointRadius, Checkpoint.transform.localScale.y, CheckpointRadius);
+            Checkpoint.GetComponent<ActionTrigger>().SetAction(m_Action);
+            Checkpoint.name = Name;
         }
         return true;
     }
 
-    ///<summary>
-    /// Called to start quest, checks if objective are set right, either quest won't start.
-    ///</summary>
-    private bool CheckParametersAndValidate(){
-        // Target musn't be null and position must be null
-        if(Objective == Objectives.Collect || Objective == Objectives.Bring){
-            if(positionToReach != null || Target == null){
-                return false;
+    public void CheckNeededQuests(){
+        if(State == States.Unavailable){
+            foreach(Quest _quest in NeededToUnlock){
+                if(_quest.State != States.Finished){
+                    State = States.Unavailable;
+                    return;
+                }
             }
-        //position musn't be null and Target must be null
-        }else{
-            if(Target != null || positionToReach == null){
-                return false;
-            }
+            State = States.Available;
         }
-        return true;
+    }
+
+    
+    public bool HasRequieredAmount(){
+        if(m_Amount == m_RequieredAmount){
+            return true;
+        }
+        return false;
+    }
+
+    public void GiveRecompense(){
+        State = States.Finished;
+        Debug.Log("Recompense given");
     }
 
     public void End(){
         Destroy(Checkpoint);
-        Holder.SetFinished();
-        Debug.Log("Quest ended");
+        State = States.FinishedPending;
+        // Holder.SetFinished();
     }
 }

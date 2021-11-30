@@ -12,12 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11612918efde01d499d2132c925044b3, type: 3}
   m_Name: Quest 1
   m_EditorClassIdentifier: 
-  Name: 
-  Description: 
+  Holder: {fileID: 0}
+  Name: Second quest
+  Description: "Seconde qu\xEAte apr\xE8s la premi\xE8re"
+  PresentationTexts:
+  - Ok c'est reparti
+  - "Fais moi plaisir va me chercher \xE7a, t'es chaud?"
+  ProgressTexts:
+  - "T'as pas ce que je t'ai demand\xE9"
+  FinishedTexts:
+  - Merci beaucoup c'est sympa
+  - "Tiens voil\xE0 la r\xE9compense "
+  NeededToUnlock:
+  - {fileID: 11400000, guid: 25c0dad4c7186034e859656ee0411c4c, type: 2}
   NextQuestAfterFinished: {fileID: 0}
-  Objective: 0
-  Target: {fileID: 0}
-  positionToReach: {x: 0, y: 0, z: 0}
-  CheckpointPrefab: {fileID: 0}
-  CheckpointRadius: 0
+  m_Action: {fileID: 0}
+  m_RequieredAmount: 1
+  m_Amount: 0
+  positionToReach: {x: 550, y: 0.75, z: 500}
+  CheckpointPrefab: {fileID: 6214241549591868910, guid: 86938543de5021c46816ecfee31f6c3f, type: 3}
+  CheckpointRadius: 10
   Checkpoint: {fileID: 0}
+  State: 1
