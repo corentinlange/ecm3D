@@ -26,6 +26,9 @@ MonoBehaviour:
   - Cadeau
   NeededToUnlock: []
   NextQuestAfterFinished: {fileID: 0}
+  m_Action: {fileID: 0}
+  m_RequieredAmount: 1
+  m_Amount: 0
   Objective: 0
   Target: {fileID: 0}
   positionToReach: {x: 500, y: 0.75, z: 500}

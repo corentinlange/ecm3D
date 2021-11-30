@@ -38,9 +38,18 @@ public class QuestHolder : MonoBehaviour
     }
 
     private void LoadPopup(){
+        CheckQuestsStatus();
         GameObject _popup = Resources.Load<GameObject>("PopupAsset");
         TextPopup = Instantiate(_popup, new Vector3(0, 0, 0), Quaternion.identity);
         TextPopup.transform.SetParent(GameObject.FindGameObjectsWithTag("Canvas")[0].transform, false);
+    }
+
+    private void CheckQuestsStatus(){
+        if(Quests.Count != 0){
+            for(int i = 0; i<Quests.Count; i++){
+                Quests[i].CheckNeededQuests();
+            }
+        }
     }
 
     public void UnloadPopup(bool accepted = false){

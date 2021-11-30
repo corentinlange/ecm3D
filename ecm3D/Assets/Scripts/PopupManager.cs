@@ -25,7 +25,6 @@ public class PopupManager : MonoBehaviour {
             Holder = _holder;
             
             for(int i = 0; i < Holder.Quests.Count; i++){
-                Debug.Log(Holder.Quests[i]);
                 LoadQuestUI(Holder.Quests[i]);
             }
         }

@@ -26,8 +26,9 @@ MonoBehaviour:
   NeededToUnlock:
   - {fileID: 11400000, guid: 25c0dad4c7186034e859656ee0411c4c, type: 2}
   NextQuestAfterFinished: {fileID: 0}
-  Objective: 0
-  Target: {fileID: 0}
+  m_Action: {fileID: 0}
+  m_RequieredAmount: 1
+  m_Amount: 0
   positionToReach: {x: 550, y: 0.75, z: 500}
   CheckpointPrefab: {fileID: 6214241549591868910, guid: 86938543de5021c46816ecfee31f6c3f, type: 3}
   CheckpointRadius: 10

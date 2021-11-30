@@ -7,30 +7,29 @@ public class PlayerController : MonoBehaviour
 {
     private Camera mainCamera;
 
-    public Vector3 height;
+    private ThirdPersonCamera cam;
 
+    public Vector3 height;
+    public Transform Aim;
     public CharacterController controller;
 
+    public float moveSpeed;
     public float gravity = 9.8f;
     private float vSpeed = 0; // current vertical velocity
 
     public float jumpHeight;
 
+    public LayerMask layerMask;
+
     void Start()
     {
         mainCamera = Camera.main;
         controller = GetComponent<CharacterController>();
+
+        cam = GetComponent<ThirdPersonCamera>();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {   
-        Quest _quest = QuestsManager.singleton.activeQuests.Find(x => x.Name == other.name);
-        if(_quest != null){
-            QuestsManager.singleton.EndQuest(_quest);
-        }
-    }
-
-    void FixedUpdate()
+    void Update()
     {
         if (controller.isGrounded && vSpeed < 0)
         {
@@ -46,26 +45,37 @@ public class PlayerController : MonoBehaviour
         if(!controller.isGrounded){
             vSpeed -= gravity * Time.deltaTime;
         }
-
         controller.Move(vSpeed * new Vector3(0,1,0));
 
+        Vector3 pos = new Vector3((Screen.width / 2), (Screen.height / 2), 0);
+        
         RaycastHit hit;
+        Ray ray = mainCamera.ScreenPointToRay(pos);     
 
         Vector3 raycastDir = Quaternion.AngleAxis(-20, mainCamera.transform.TransformDirection(Vector3.right)) * mainCamera.transform.TransformDirection(Vector3.forward);
-        if (Physics.Raycast(transform.position + height, raycastDir, out hit, Mathf.Infinity))
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
-            Debug.DrawRay(transform.position + height, raycastDir * hit.distance, Color.yellow);
-            
+            Aim.position = hit.point;
+            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.yellow);
             QuestHolder questHolder = hit.transform.GetComponent<QuestHolder>();
             if(questHolder != null){
                 if(Input.GetMouseButtonDown(0)){
                     questHolder.Talk();
                 }
             }
+
+            InteractableObject IO = hit.transform.GetComponent<InteractableObject>();
+            if(IO != null){
+                if(Input.GetMouseButtonDown(0)){
+                    IO.Interact();
+                }
+            }
         }
         else
         {
-            Debug.DrawRay(transform.position + height,raycastDir * 1000, Color.white);
+            Aim.position = ray.origin + ray.direction * 10f;
+            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.yellow);
         }
     }
 }

@@ -26,7 +26,6 @@ public class QuestsManager : MonoBehaviour
     }
 
     public void SetActiveQuest(Quest quest){
-        Debug.Log(quest.Name);
         activeQuests.Add(quest);
         quest.StartQuest();
     }
@@ -34,5 +33,17 @@ public class QuestsManager : MonoBehaviour
     public void EndQuest(Quest _quest){
         activeQuests.Find(x => x.Name == _quest.Name).End();
         activeQuests.Remove(_quest);
+    }
+
+    public void ActionTriggered(Action _action){
+        Debug.Log(_action.m_Type);
+        foreach(Quest _quest in activeQuests){
+            if (_quest.m_Action == _action){
+                _quest.m_Amount++;
+                if(_quest.HasRequieredAmount()){
+                    EndQuest(_quest);
+                }
+            }
+        }
     }
 }
