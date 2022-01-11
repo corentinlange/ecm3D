@@ -41,7 +41,9 @@ public class ThirdPersonCamera : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        if(!isUIopen){
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     public void onUIopenTrigger(){
