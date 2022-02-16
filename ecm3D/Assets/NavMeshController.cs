@@ -16,8 +16,8 @@ public class NavMeshController : MonoBehaviour
         myNavMeshAgent = GetComponent<NavMeshAgent>();
         myLineRenderer = GetComponent<LineRenderer>();
 
-        myLineRenderer.startWidth = 0.15f;
-        myLineRenderer.endWidth = 0.15f;
+        myLineRenderer.startWidth = 0.1f;
+        myLineRenderer.endWidth = 0.1f;
         myLineRenderer.positionCount = 0;
 
     }
@@ -54,7 +54,8 @@ public class NavMeshController : MonoBehaviour
 
         for(int i = 1; i < myNavMeshAgent.path.corners.Length; i++)
         {
-            Vector3 pointPosition = new Vector3(myNavMeshAgent.path.corners[i].x, myNavMeshAgent.path.corners[i].y, myNavMeshAgent.path.corners[i].z);
+            Vector3 linePosition = new Vector3(0f, 1f, 0f);
+            Vector3 pointPosition = myNavMeshAgent.path.corners[i] + linePosition;
             myLineRenderer.SetPosition(i, pointPosition);
         }
     }
