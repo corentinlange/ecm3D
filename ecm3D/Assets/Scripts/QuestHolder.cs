@@ -19,22 +19,43 @@ public class QuestHolder : MonoBehaviour
         FinishedPending,
         Finished
     };
-    public States State = States.Waiting;
+    public States State
+    {
+        get{return m_State;}
+        set{
+            m_State = value;
+            if(value == States.Waiting)
+            {
+                Destroy(m_StateObject);
+                m_StateObject = Instantiate(m_WaitingPrefab, Vector3.zero, Quaternion.identity);
+                m_StateObject.transform.parent = transform;
+                m_StateObject.transform.position = transform.position + new Vector3(0, 1f, 0);
+            }
+        }
+    }
+    private States m_State;
 
     private GameObject TextPopup;
 
     private Quest toStart;
     private Quest toEnd;
     private List<Quest> startedQuests = new List<Quest>();
+
+    public GameObject m_WaitingPrefab;
+
+    private GameObject m_StateObject;
     
     void Start()
     {
         if(Quests.Count != 0){
             for(int i = 0; i<Quests.Count; i++){
+                Quests[i] = Instantiate(Quests[i]);
                 Quests[i].Holder = this;
                 Quests[i].CheckNeededQuests();
             }
         }
+
+        State = States.Waiting;
     }
 
     private void LoadPopup(){
@@ -81,7 +102,7 @@ public class QuestHolder : MonoBehaviour
             break;
         }
 
-        ThirdPersonCamera.singleton.onUIopenTrigger();
+        PlayerController.singleton.onUIopenTrigger();
     }
 
     public void FinishQuest(Quest _quest){

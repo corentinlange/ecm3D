@@ -12,5 +12,8 @@ public class Action : ScriptableObject
 
     public Actions m_Type;
 
+    [HideInInspector]
+    public string m_ObjectName = "";
+
     public bool m_QuestTriggerer;
 }

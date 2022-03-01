@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Quest
   m_EditorClassIdentifier: 
   Holder: {fileID: 0}
-  Name: Main quest
-  Description: Test
+  Name: Grand soif
+  Description: "Aide les jeunes centraliers \xE0 s'hydrater correctement"
   PresentationTexts:
   - "Salut voil\xE0 la premi\xE8re qu\xEAte"
   - Tu veux la commencer ?
@@ -26,7 +26,8 @@ MonoBehaviour:
   - Cadeau
   NeededToUnlock: []
   NextQuestAfterFinished: {fileID: 0}
-  m_Action: {fileID: 11400000, guid: 598717ef4da0e624bb63b18984513f43, type: 2}
+  m_Action: {fileID: 11400000, guid: 67a7dd02ccf5f6c48b15761e856ea67e, type: 2}
+  m_ToCollect: Bottle
   m_RequieredAmount: 1
   m_Amount: 0
   positionToReach: {x: 500, y: 0.75, z: 500}

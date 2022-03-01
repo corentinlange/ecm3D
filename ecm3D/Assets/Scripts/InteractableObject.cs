@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ActionTrigger))]
 public class InteractableObject : MonoBehaviour
 {
     public Action m_Action;
-    ActionTrigger m_Trigger;
-    void Start(){
-        m_Trigger = GetComponent<ActionTrigger>();
-        if(m_Action != null){
-            m_Trigger.SetAction(m_Action);
-        }
+
+    private void Start() {
+        m_Action = Instantiate(m_Action);
+        m_Action.m_ObjectName = transform.name;
     }
 
     public void Interact(){
-        GetComponent<ActionTrigger>().onTriggered();
+        if(m_Action != null){
+            ActionHandler.Trigger(m_Action);
+            if(m_Action.m_Type == Action.Actions.Collect)
+            {
+                Destroy(transform.parent.gameObject);
+            }
+        }
     }
 }

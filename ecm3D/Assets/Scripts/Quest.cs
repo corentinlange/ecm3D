@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Quest", menuName = "Quests", order = 0)]
 public class Quest : ScriptableObject {
 
-    // [HideInInspector]
+    [HideInInspector]
     public QuestHolder Holder;
 
     public string Name;
@@ -23,6 +23,7 @@ public class Quest : ScriptableObject {
     public Quest NextQuestAfterFinished;
 
     public Action m_Action;
+    public string m_ToCollect;
     
     public int m_RequieredAmount;
     public int m_Amount = 0;

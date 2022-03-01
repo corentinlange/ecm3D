@@ -17,7 +17,7 @@ public class PopupManager : MonoBehaviour {
 
     void Start(){
         Cursor.lockState = CursorLockMode.Confined;
-        ThirdPersonCamera.singleton.onUIopenTrigger();
+        PlayerController.singleton.onUIopenTrigger();
     }
 
     public void InitiatePopup(List<string> texts, QuestHolder _holder){

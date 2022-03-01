@@ -36,14 +36,37 @@ public class QuestsManager : MonoBehaviour
     }
 
     public void ActionTriggered(Action _action){
-        Debug.Log(_action.m_Type);
+        List<Quest> toRemove = new List<Quest>();
+
         foreach(Quest _quest in activeQuests){
-            if (_quest.m_Action == _action){
-                _quest.m_Amount++;
-                if(_quest.HasRequieredAmount()){
-                    EndQuest(_quest);
+            if (_quest.m_Action.m_Type == _action.m_Type){
+                if(_action.m_Type == Action.Actions.Collect)
+                {
+                    Debug.Log(_action.m_ObjectName);
+                    Debug.Log(_quest.m_ToCollect);
+                    
+                    if(_action.m_ObjectName != "" && _action.m_ObjectName == _quest.m_ToCollect)
+                    {
+                        _quest.m_Amount++;
+                        if(_quest.HasRequieredAmount())
+                        {
+                            toRemove.Add(_quest);
+                        }
+                    }
+                }
+                else{
+                    _quest.m_Amount++;
+                    if(_quest.HasRequieredAmount())
+                    {
+                        toRemove.Add(_quest);
+                    }
                 }
             }
+        }
+
+        foreach(Quest _quest in toRemove)
+        {
+            EndQuest(_quest);
         }
     }
 }
