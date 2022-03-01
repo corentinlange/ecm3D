@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     
     public bool isUIopen;
 
+    public Animator animator;
+
     [SerializeField]
     public CinemachineFreeLook vcam;
 
@@ -61,20 +63,28 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.Z))
             {
+                if(!controller.isGrounded)
+                    animator.SetBool("Run", true);
+                    
                 move += transform.forward * moveSpeed * Time.deltaTime;
             }
             else if (Input.GetKey(KeyCode.S))
             {
+                animator.SetBool("Run", false);
                 move -= transform.forward * moveSpeed * Time.deltaTime;
+            }else{
+                animator.SetBool("Run", false);
             }
-            if (Input.GetButtonDown("Jump") && controller.isGrounded)
-            {
-                Debug.Log("jump");
-                vSpeed += Mathf.Sqrt(jumpHeight * 3.0f * gravity);
-            }
+            // if (Input.GetButtonDown("Jump") && controller.isGrounded)
+            // {
+            //     animator.SetBool("Jump", true);
+            //     vSpeed += Mathf.Sqrt(jumpHeight * 3.0f * gravity);
+            // }
         }
         if(!controller.isGrounded){
             vSpeed -= gravity * Time.deltaTime;
+            // animator.SetBool("Jump", false);
+        }else{
         }
         controller.Move(vSpeed * new Vector3(0,1,0) + move);
 
