@@ -7,7 +7,8 @@ public class Action : ScriptableObject
 {
     public enum Actions {
         Reach,
-        Collect
+        Collect,
+        GiveItem
     }
 
     public Actions m_Type;

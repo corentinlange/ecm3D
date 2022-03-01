@@ -23,7 +23,7 @@ public class Quest : ScriptableObject {
     public Quest NextQuestAfterFinished;
 
     public Action m_Action;
-    public string m_ToCollect;
+    public string m_TargetItem;
     
     public int m_RequieredAmount;
     public int m_Amount = 0;
