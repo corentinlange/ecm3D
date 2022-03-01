@@ -14,13 +14,13 @@ public class PopupManager : MonoBehaviour {
     public List<string> Texts;
     private int textsNumber;
     private int step;
-
-    void Start(){
-        Cursor.lockState = CursorLockMode.Confined;
-        PlayerController.singleton.onUIopenTrigger();
-    }
+    public CanvasGroup m_Popup;
 
     public void InitiatePopup(List<string> texts, QuestHolder _holder){
+        
+        Cursor.lockState = CursorLockMode.Confined;
+        PlayerController.singleton.onUIopenTrigger();
+
         if(_holder != null){
             Holder = _holder;
             
@@ -77,6 +77,25 @@ public class PopupManager : MonoBehaviour {
     public void Confirm()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        Destroy(gameObject);
+        ShowHide();
+    }
+
+    public void ShowHide(bool show = false)
+    {
+        if(show)
+        {
+            m_Popup.alpha = 1f;
+            m_Popup.interactable = true;
+            m_Popup.blocksRaycasts = true;
+        }
+        else{
+            m_Popup.alpha = 0f;
+            m_Popup.interactable = false;
+            m_Popup.blocksRaycasts = false;
+            foreach(Transform child in QuestsContainer)
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
 }

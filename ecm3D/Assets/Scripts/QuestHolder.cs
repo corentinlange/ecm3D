@@ -35,7 +35,7 @@ public class QuestHolder : MonoBehaviour
     }
     private States m_State;
 
-    private GameObject TextPopup;
+    private PopupManager TextPopup;
 
     private Quest toStart;
     private Quest toEnd;
@@ -45,6 +45,8 @@ public class QuestHolder : MonoBehaviour
 
     private GameObject m_StateObject;
     
+    public PopupManager QuestUI;
+
     void Start()
     {
         if(Quests.Count != 0){
@@ -60,9 +62,10 @@ public class QuestHolder : MonoBehaviour
 
     private void LoadPopup(){
         CheckQuestsStatus();
-        GameObject _popup = Resources.Load<GameObject>("PopupAsset");
-        TextPopup = Instantiate(_popup, new Vector3(0, 0, 0), Quaternion.identity);
-        TextPopup.transform.SetParent(GameObject.FindGameObjectsWithTag("Canvas")[0].transform, false);
+        QuestUI.ShowHide(true);
+        // GameObject _popup = Resources.Load<GameObject>("PopupAsset");
+        // TextPopup = Instantiate(_popup, new Vector3(0, 0, 0), Quaternion.identity);
+        // TextPopup.transform.SetParent(GameObject.FindGameObjectsWithTag("Canvas")[0].transform, false);
     }
 
     private void CheckQuestsStatus(){
@@ -102,37 +105,34 @@ public class QuestHolder : MonoBehaviour
             break;
         }
 
+        Cursor.lockState = CursorLockMode.Locked;
         PlayerController.singleton.onUIopenTrigger();
     }
 
     public void FinishQuest(Quest _quest){
         if(Quests.Find(x => x.Name == _quest.Name)){
-            TextPopup.GetComponent<PopupManager>().SetNewTexts(_quest.FinishedTexts);
+            QuestUI.SetNewTexts(_quest.FinishedTexts);
             toEnd = _quest;
             State = States.Finished;
         }
     }
 
     public void Talk(){
-        if(TextPopup == null){
-            
-            LoadPopup();
-            switch(State)
-            {
-            case States.Waiting:
-                TextPopup.GetComponent<PopupManager>().InitiatePopup(WaitingTexts, this);
-                break;
-            case States.Presenting:
-                TextPopup.GetComponent<PopupManager>().InitiatePopup(Quests[questIndex].PresentationTexts, this);
-                break;
-            case States.Progress:
-                TextPopup.GetComponent<PopupManager>().InitiatePopup(Quests[questIndex].ProgressTexts, this);
-                break;
-            case States.Finished:
-                TextPopup.GetComponent<PopupManager>().InitiatePopup(Quests[questIndex].FinishedTexts, this);
-                break;
-            }
-            
+        LoadPopup();
+        switch(State)
+        {
+        case States.Waiting:
+            QuestUI.InitiatePopup(WaitingTexts, this);
+            break;
+        case States.Presenting:
+            QuestUI.InitiatePopup(Quests[questIndex].PresentationTexts, this);
+            break;
+        case States.Progress:
+            QuestUI.InitiatePopup(Quests[questIndex].ProgressTexts, this);
+            break;
+        case States.Finished:
+            QuestUI.InitiatePopup(Quests[questIndex].FinishedTexts, this);
+            break;
         }
     }
 
@@ -140,7 +140,7 @@ public class QuestHolder : MonoBehaviour
         toStart = Quests.Find(x => x.Name == quest.Name);
         if(toStart != null){
             State = States.Presenting;
-            TextPopup.GetComponent<PopupManager>().SetNewTexts(toStart.PresentationTexts);
+            QuestUI.SetNewTexts(toStart.PresentationTexts);
             // à la dernière étape il y a une option pour refuser la quête et une pour l'accepter
         }else{
             Debug.Log("Quest not found");

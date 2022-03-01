@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         {
             vSpeed = 0f;
         }
-        
+
         if(!isUIopen)
         {
 
@@ -80,36 +80,41 @@ public class PlayerController : MonoBehaviour
 
         Vector3 pos = new Vector3((Screen.width / 2), (Screen.height / 2), 0);
         
-        RaycastHit hit;
-        Ray ray = mainCamera.ScreenPointToRay(pos);     
-
-        Vector3 raycastDir = Quaternion.AngleAxis(-20, mainCamera.transform.TransformDirection(Vector3.right)) * mainCamera.transform.TransformDirection(Vector3.forward);
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        if(!isUIopen)
         {
-            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.yellow);
-            QuestHolder questHolder = hit.transform.GetComponent<QuestHolder>();
-            if(questHolder != null){
-                if(Input.GetMouseButtonDown(0)){
-                    questHolder.Talk();
+            RaycastHit hit;
+            Ray ray = mainCamera.ScreenPointToRay(pos);     
+
+            Vector3 raycastDir = Quaternion.AngleAxis(-20, mainCamera.transform.TransformDirection(Vector3.right)) * mainCamera.transform.TransformDirection(Vector3.forward);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            {
+                Debug.DrawRay(ray.origin, ray.direction * 100f, Color.yellow);
+                QuestHolder questHolder = hit.transform.GetComponent<QuestHolder>();
+                if(questHolder != null){
+                    if(Input.GetMouseButtonDown(0)){
+                        questHolder.Talk();
+                    }
+                }
+
+                InteractableObject IO = hit.transform.GetComponent<InteractableObject>();
+                if(IO != null){
+                    if(Input.GetMouseButtonDown(0)){
+                        IO.Interact();
+                    }
                 }
             }
-
-            InteractableObject IO = hit.transform.GetComponent<InteractableObject>();
-            if(IO != null){
-                if(Input.GetMouseButtonDown(0)){
-                    IO.Interact();
-                }
+            else
+            {
+                Debug.DrawRay(ray.origin, ray.direction * 100f, Color.yellow);
             }
-        }
-        else
-        {
-            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.yellow);
         }
     }
 
     public void onUIopenTrigger(){
         isUIopen = !isUIopen;
         vcam.enabled = !isUIopen;
+        Debug.Log(isUIopen);
+        Debug.Log(vcam.enabled);
     }
 }
