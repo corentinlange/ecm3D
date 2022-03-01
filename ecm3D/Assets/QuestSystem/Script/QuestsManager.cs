@@ -45,6 +45,7 @@ public class QuestsManager : MonoBehaviour
                     if(_action.m_ObjectName != "" && _action.m_ObjectName == _quest.m_TargetItem)
                     {
                         _quest.m_Amount++;
+                        Notifications.singleton.ShowNotification("QuestAdvanced");
                         if(_quest.HasRequieredAmount())
                         {
                             toRemove.Add(_quest);
