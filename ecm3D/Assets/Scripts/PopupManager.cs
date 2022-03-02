@@ -71,8 +71,9 @@ public class PopupManager : MonoBehaviour {
 
     public void ExitButtonClicked()
     {
-        Confirm();
-        Holder.UnloadPopup(true);
+        PlayerController.singleton.onUIopenTrigger();
+        Cursor.lockState = CursorLockMode.Locked;
+        ShowHide();
     }
 
     ///<summary>
