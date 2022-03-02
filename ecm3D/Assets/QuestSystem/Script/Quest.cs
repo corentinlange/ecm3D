@@ -55,6 +55,9 @@ public class Quest : ScriptableObject {
             Checkpoint.GetComponent<ActionTrigger>().SetAction(m_Action);
             Checkpoint.name = Name;
         }
+        
+        string[] replacements = new string[]{this.Name};
+        Notifications.singleton.ShowNotification("StartQuest", replacements);
         return true;
     }
 

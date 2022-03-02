@@ -140,7 +140,7 @@ public class QuestHolder : MonoBehaviour
         toStart = Quests.Find(x => x.Name == quest.Name);
         if(toStart != null){
             State = States.Presenting;
-            QuestUI.SetNewTexts(toStart.PresentationTexts);
+            QuestUI.SetNewTexts(toStart.PresentationTexts, quest.Name, quest.Description);
             // à la dernière étape il y a une option pour refuser la quête et une pour l'accepter
         }else{
             Debug.Log("Quest not found");

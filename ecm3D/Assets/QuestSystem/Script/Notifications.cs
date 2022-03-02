@@ -27,14 +27,20 @@ public class Notifications : MonoBehaviour
         singleton = this;
     }
 
-    public void ShowNotification(string _name)
+    public void ShowNotification(string _name, params string[] replacements)
     {
         foreach(Notification notification in m_Notifications)
         {
             if(notification.m_Name == _name)
             {
                 GameObject GO = Instantiate(m_NotificationPrefab, m_NotificationsContainer);
-                GO.GetComponentInChildren<Text>().text = notification.m_Content;
+                string content = notification.m_Content;
+                for(int i = 0; i < replacements.Length; i++)
+                {
+                    content = content.Replace("{" + i.ToString() + "}", replacements[i]);
+                }
+                Debug.Log(content);
+                GO.GetComponentInChildren<Text>().text = content;
             }
         }
     }

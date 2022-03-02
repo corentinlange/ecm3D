@@ -124,7 +124,5 @@ public class PlayerController : MonoBehaviour
     public void onUIopenTrigger(){
         isUIopen = !isUIopen;
         vcam.enabled = !isUIopen;
-        Debug.Log(isUIopen);
-        Debug.Log(vcam.enabled);
     }
 }

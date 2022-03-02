@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PopupManager : MonoBehaviour {
     public Text text;
+    public Text m_QuestName;
+    public Text m_QuestDescription;
     public Button buttonNext;
 
     public Transform QuestsContainer;
@@ -31,20 +33,26 @@ public class PopupManager : MonoBehaviour {
         SetNewTexts(texts);
     }
 
-    public void SetNewTexts(List<string> newTexts){
+    public void SetNewTexts(List<string> newTexts, string questName = "Nom de la quête", string questDescription = "Description"){
         Texts = newTexts;
         textsNumber = Texts.Count;
         step = 0;
+
+        m_QuestName.text = questName;
+        m_QuestDescription.text = questDescription;
         UpdateContent();
     }
 
     private void LoadQuestUI(Quest _quest){
         GameObject _questUI = Resources.Load<GameObject>("QuestUI");
         _questUI = Instantiate(_questUI, new Vector3(0, 0, 0), Quaternion.identity);
-
         _questUI.transform.SetParent(QuestsContainer, false);
 
         _questUI.GetComponent<QuestUIManager>().InitiateUI(_quest);
+
+        GameObject separator = Resources.Load<GameObject>("Separator");
+        Instantiate(separator, new Vector3(0, 0, 0), Quaternion.identity);
+        _questUI.transform.SetParent(QuestsContainer, false);
     }
 
     private void UpdateContent(){
@@ -59,6 +67,12 @@ public class PopupManager : MonoBehaviour {
             Confirm();
             Holder.UnloadPopup(true);
         }
+    }
+
+    public void ExitButtonClicked()
+    {
+        Confirm();
+        Holder.UnloadPopup(true);
     }
 
     ///<summary>
