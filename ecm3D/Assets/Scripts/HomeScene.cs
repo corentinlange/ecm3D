@@ -12,14 +12,24 @@ public class HomeScene : MonoBehaviour
     Camera m_MainCamera;
 
     CanvasGroup m_Panel;
+    float m_StartYRot;
+
+    private bool m_HasStarted = false;
 
     private void Start() {
         m_Panel = GetComponent<CanvasGroup>();
+    }
+
+    private void Update() {
+        if(!m_HasStarted){
+            // Todo : rotation caméra sur l'axe y 
+        }
     }
     
     public void OnPlayClicked()
     {
         // StartCoroutine(ChangeScene("Home",0,"Main",1));
+        m_HasStarted = true;
         m_MainCamera.depth = 2;
         Cursor.lockState = CursorLockMode.Locked;
         PlayerController.singleton.isUIopen = false;

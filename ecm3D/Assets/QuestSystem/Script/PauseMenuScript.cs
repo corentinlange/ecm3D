@@ -29,6 +29,8 @@ public class PauseMenuScript : MonoBehaviour
     public void Resume()
     {   
         pauseMenuUI.alpha = 0;
+        pauseMenuUI.blocksRaycasts = false;
+        pauseMenuUI.interactable = false;
         GameIsPaused = false;
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
@@ -38,6 +40,8 @@ public class PauseMenuScript : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.alpha = 1;
+        pauseMenuUI.blocksRaycasts = true;
+        pauseMenuUI.interactable = true;
         GameIsPaused = true;
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.Confined;
