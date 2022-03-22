@@ -30,13 +30,17 @@ public class PauseMenuScript : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         GameIsPaused = false;
-        Debug.Log("Resume");
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        
     }
 
     void Pause()
     {
         pauseMenuUI.SetActive(true);
         GameIsPaused = true;
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void HelpMenu()
