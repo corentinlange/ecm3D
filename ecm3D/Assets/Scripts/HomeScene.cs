@@ -34,6 +34,8 @@ public class HomeScene : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         PlayerController.singleton.isUIopen = false;
         m_Panel.alpha = 0;
+        m_Panel.blocksRaycasts = false;
+        m_Panel.interactable = false;
     }
 
     public void OnHelpClicked()

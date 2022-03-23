@@ -44,6 +44,7 @@ public class GPSMenuScript : MonoBehaviour
         gpsMenuUI.interactable = false;
         GameIsPaused = false;
         Time.timeScale = 1f;
+        PlayerController.singleton.isUIopen = false;
         Cursor.lockState = CursorLockMode.Locked;
 
     }
@@ -55,6 +56,7 @@ public class GPSMenuScript : MonoBehaviour
         gpsMenuUI.interactable = true;
         GameIsPaused = true;
         Time.timeScale = 0f;
+        PlayerController.singleton.isUIopen = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
 
